@@ -6,17 +6,35 @@ import Search from './Search';
 import axios from 'axios';
 
 export default class App extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-
+      lists: [],
+      id: 0
     }
-
+    this.getLists = this.getLists.bind(this)
   }
 
-  render(){
-  
-    return(
+  componentDidMount() {
+    this.getLists()
+  }
+
+  getLists() {
+    axios.get('/products').then((response) => {
+      this.setState({
+        lists: response.data
+      })
+    })
+  }
+
+  idGrabber(id) {
+    this.setState({
+      id: id
+    })
+  }
+  render() {
+
+    return (
       <div>
         <div>
           <h1>EBID</h1>
@@ -28,11 +46,12 @@ export default class App extends React.Component {
           </div>
         </nav>
         <div className="row main-container">
-          <div className="col-md-7 product-viewer-container">
-            <ProductViewer />
+          <div className="col-md-7 product-viewer-container"><br />
+            <ProductViewer lists={this.state.lists} id={this.state.id} refresh={this.getLists} />
           </div>
           <div className="col-md-5 product-list-container">
-            <ProductList  />
+            <ProductList lists={this.state.lists} id={this.idGrabber.bind(this)} />
+            {/* {console.log(this.state)} */}
           </div>
         </div>
       </div>

@@ -9,8 +9,16 @@ router
   .post(controller.post)
 
 router
-  .route('/products/:_id')
+  .route('/products/:id')
   .put(controller.put)
   .delete(controller.delete)
 
 module.exports = router
+
+/*
+id
+subject
+current bid
+original price
+bidding ends date
+*/
